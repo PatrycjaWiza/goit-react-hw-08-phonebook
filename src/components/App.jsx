@@ -1,61 +1,82 @@
-import { useDispatch, useSelector } from 'react-redux';
-import * as contactActions from 'redux/actions';
-import { useEffect } from 'react';
-import { Title } from './Styles';
-import { Contacts } from './Contacts';
-import { Filter } from './Filter';
-import { PhoneBookForm } from './PhonebookForm';
-import { addContact, deleteContact, fetchContacts } from 'services/api';
+import { lazy, Suspense, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
 
-export const App = () => {
-  const contactState = useSelector(state => state.contacts.items);
-  const contactFilter = useSelector(state => state.contacts.filter);
-  const dispatch = useDispatch();
-  const isLoading = useSelector(state => state.contacts.loading);
-  const isError = useSelector(state => state.contacts.error);
+import { refreshUser } from 'redux/auth/operations';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
+import Navigation from './Navigation';
 
-  const filterContacts = useSelector(state =>
-    contactState.filter(contact =>
-      contact.name.toLowerCase().includes(contactFilter.toLowerCase())
-    )
-  );
+const HomePage = lazy(() => import('../pages/Home'));
+const LoginPage = lazy(() => import('../pages/Login'));
+const RegisterPage = lazy(() => import('../pages/Register'));
+const ContactPage = lazy(() => import('../pages/Contacts'));
 
+const App = ({ refreshUser }) => {
   useEffect(() => {
-    dispatch(fetchContacts());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
-
-  const handleChange = e => {
-    dispatch(contactActions.addFilter(e.target.value));
-  };
-
-  const contactSubmit = values => {
-    const nameArray = contactState.map(contact => {
-      return contact.name;
-    });
-    if (nameArray.includes(values.name)) {
-      return alert(`${values.name} is already in contacts.`);
-    }
-    return dispatch(addContact(values));
-  };
-
-  const toDelete = id => {
-    dispatch(deleteContact(id));
-  };
+    refreshUser();
+  }, [refreshUser]);
 
   return (
-    <div>
-      <h1>Phonebook</h1>
-      <PhoneBookForm onSubmit={contactSubmit} />
-      <Title>Contacts</Title>
-      <Filter value={contactFilter} onChange={handleChange} />
-      {isLoading && <p>Loading...</p>}
-      {contactState === null ? (
-        <p>No contacts</p>
-      ) : (
-        <Contacts contacts={filterContacts} toDelete={toDelete} />
-      )}
-      {isError && <p>error.message</p>}
-    </div>
+    <>
+      <Navigation />
+      <Suspense fallback={null}>
+        <Routes>
+          <Route element={<PublicRoute />} path="/" component={HomePage}>
+            <Route path="/" element={<HomePage />} />
+          </Route>
+          <Route
+            element={<PublicRoute />}
+            path="/login"
+            component={LoginPage}
+            restricted
+            redirectTo="/contacts"
+          >
+            <Route
+              path="/login"
+              element={<LoginPage />}
+              redirectTo="/contacts"
+            />
+          </Route>
+
+          <Route
+            element={<PublicRoute />}
+            path="/register"
+            component={RegisterPage}
+            restricted
+            redirectTo="/contacts"
+          >
+            <Route
+              path="/register"
+              element={<RegisterPage />}
+              redirectTo="/contacts"
+            />
+          </Route>
+
+          <Route
+            element={<PrivateRoute />}
+            path="/contacts"
+            component={ContactPage}
+            redirectTo="/login"
+          >
+            <Route
+              path="/contacts"
+              element={<ContactPage />}
+              redirectTo="/login"
+            />
+          </Route>
+
+          <Route element={<PublicRoute />} component={HomePage}>
+            <Route element={<HomePage />} />
+          </Route>
+        </Routes>
+      </Suspense>
+    </>
   );
 };
+
+const mapDispatchToProps = {
+  refreshUser: refreshUser,
+};
+
+export default connect(null, mapDispatchToProps)(App);
