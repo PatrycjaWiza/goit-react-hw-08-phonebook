@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 
 export const Filter = ({ onChange, value }) => {
   return (
-    <>
+    <div className="findContact">
       <Form.Label>Find contacts by name</Form.Label>
       <Form.Control
         type="text"
@@ -12,7 +12,7 @@ export const Filter = ({ onChange, value }) => {
         value={value}
         onChange={onChange}
       ></Form.Control>
-    </>
+    </div>
   );
 };
 

@@ -6,10 +6,10 @@ import ListGroup from 'react-bootstrap/ListGroup';
 export const Contacts = ({ contacts, toDelete }) => {
   return (
     <ListGroup>
-      {contacts.map(({ name, phone, id }) => (
+      {contacts.map(({ name, number, id }) => (
         <ListGroup.Item key={id}>
-          {name}: {phone}
           <Button
+            className="deleteBtn"
             size="sm"
             type="submit"
             onClick={() => {
@@ -18,6 +18,7 @@ export const Contacts = ({ contacts, toDelete }) => {
           >
             Delete
           </Button>
+          {name}: {number}
         </ListGroup.Item>
       ))}
     </ListGroup>
