@@ -1,7 +1,9 @@
-import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { connect } from 'react-redux';
+
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 import { login } from 'redux/auth/operations';
 
 const initialState = {
@@ -9,9 +11,11 @@ const initialState = {
   password: '',
 };
 
-const LoginForm = ({ onLogin }) => {
+export const LoginForm = () => {
   const [state, setState] = useState(initialState);
   const { email, password } = state;
+
+  const dispatch = useDispatch();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -25,7 +29,7 @@ const LoginForm = ({ onLogin }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    onLogin(state);
+    dispatch(login(state));
 
     resetForm();
   };
@@ -67,9 +71,3 @@ const LoginForm = ({ onLogin }) => {
     </Form>
   );
 };
-
-const mapDispatchToProps = {
-  onLogin: login,
-};
-
-export default connect(null, mapDispatchToProps)(LoginForm);

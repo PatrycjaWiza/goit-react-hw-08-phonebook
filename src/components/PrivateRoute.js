@@ -1,27 +1,13 @@
-import { connect } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom';
-import { selectIsLoggedIn } from 'redux/auth/selectors';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
-const PrivateRoute = ({
-  component: Component,
-  isLoggedIn,
-  redirectTo,
-  ...routeProps
-}) => (
-  <Outlet
-    {...routeProps}
-    render={prop =>
-      isLoggedIn ? <Component {...prop} /> : <Navigate to={redirectTo} />
-    }
-  />
-);
+import { selectIsLoggedIn, selectIsRefreshingUser } from 'redux/auth/selectors';
 
-// const { isLoggedIn, isRefreshing } = useAuth();
-// const shouldRedirect = !isLoggedIn && !isRefreshing;
-// return shouldRedirect ? <Navigate to={redirectTo} /> : Component;
+export const PrivateRoute = ({ component: Component, redirectTo }) => {
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isRefreshingUser = useSelector(selectIsRefreshingUser);
 
-const mapStateToProps = state => ({
-  isLoggedIn: selectIsLoggedIn(state),
-});
+  const shouldRedirect = !isLoggedIn && !isRefreshingUser;
 
-export default connect(mapStateToProps)(PrivateRoute);
+  return shouldRedirect ? <Navigate to={redirectTo} /> : Component;
+};

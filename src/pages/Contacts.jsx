@@ -1,9 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
-import * as contactActions from 'redux/actions';
+import * as contactActions from 'redux/contacts/actions';
 import { useEffect } from 'react';
 
-import { addContact, deleteContact, fetchContacts } from 'services/api';
-import { Title } from '../components/Styles';
+import {
+  addContact,
+  deleteContact,
+  fetchContacts,
+} from 'redux/contacts/operations';
 import { Contacts } from '../components/ContactsList';
 import { Filter } from '../components/Filter';
 import { PhoneBookForm } from '../components/PhonebookForm';
@@ -25,7 +28,6 @@ export default function ContactsPage() {
 
   useEffect(() => {
     dispatch(fetchContacts());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   const handleChange = e => {
@@ -42,15 +44,13 @@ export default function ContactsPage() {
     return dispatch(addContact(values));
   };
 
-  const toDelete = id => {
-    dispatch(deleteContact(id));
-  };
+  const toDelete = id => dispatch(deleteContact(id));
 
   return (
     <div>
-      <h1>Phonebook</h1>
+      <h2>Phonebook</h2>
       <PhoneBookForm onSubmit={contactSubmit} />
-      <Title>Contacts</Title>
+      <h2>Contacts</h2>
       <Filter value={contactFilter} onChange={handleChange} />
       {isLoading && <p>Loading...</p>}
       {contactState === null ? (

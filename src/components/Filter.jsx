@@ -1,16 +1,17 @@
-import { Input } from './Styles';
 import PropTypes from 'prop-types';
+
+import Form from 'react-bootstrap/Form';
 
 export const Filter = ({ onChange, value }) => {
   return (
     <>
-      <p>Find contacts by name</p>
-      <Input
+      <Form.Label>Find contacts by name</Form.Label>
+      <Form.Control
         type="text"
         name="filter"
         value={value}
         onChange={onChange}
-      ></Input>
+      ></Form.Control>
     </>
   );
 };

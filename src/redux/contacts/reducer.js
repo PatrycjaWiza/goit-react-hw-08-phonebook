@@ -1,5 +1,10 @@
 import { combineReducers, createReducer } from '@reduxjs/toolkit';
-import { fetchContacts, addContact, deleteContact } from 'services/api';
+
+import {
+  fetchContacts,
+  addContact,
+  deleteContact,
+} from 'redux/contacts/operations';
 import { addFilter } from './actions';
 
 const items = createReducer([], {

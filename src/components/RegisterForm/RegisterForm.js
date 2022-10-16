@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { register } from 'redux/auth/operations';
-import PropTypes from 'prop-types';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -12,9 +11,11 @@ const initialState = {
   email: '',
   password: '',
 };
-const RegisterForm = ({ onRegister }) => {
+export const RegisterForm = () => {
   const [state, setState] = useState(initialState);
   const { name, email, password } = state;
+
+  const dispatch = useDispatch();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -28,7 +29,7 @@ const RegisterForm = ({ onRegister }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    onRegister(state);
+    dispatch(register(state));
 
     resetForm();
   };
@@ -81,13 +82,3 @@ const RegisterForm = ({ onRegister }) => {
     </Form>
   );
 };
-
-RegisterForm.propTypes = {
-  onRegister: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = {
-  onRegister: register,
-};
-
-export default connect(null, mapDispatchToProps)(RegisterForm);

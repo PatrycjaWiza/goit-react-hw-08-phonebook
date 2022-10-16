@@ -1,32 +1,38 @@
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { selectIsLoggedIn } from 'redux/auth/selectors';
 
-import UserMenu from './UserMenu';
+import { UserMenu } from './UserMenu/UserMenu';
 
-const Navigation = ({ isLoggedIn }) => {
+export const Navigation = () => {
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
   return (
     <>
-      <nav>
-        <NavLink to="/">Home</NavLink>
-        {isLoggedIn && <NavLink to="/contacts">Contacts</NavLink>}
-      </nav>
+      <header>
+        <NavLink className="StyleLink" to="/">
+          Home
+        </NavLink>
+        {isLoggedIn && (
+          <NavLink className="StyleLink" to="/contacts">
+            Contacts
+          </NavLink>
+        )}
 
-      {isLoggedIn ? (
-        <UserMenu />
-      ) : (
-        <>
-          <NavLink to="/login">Login</NavLink>
-          <NavLink to="/register">Register</NavLink>
-        </>
-      )}
+        {isLoggedIn ? (
+          <UserMenu />
+        ) : (
+          <div className="LoginRegisterBar">
+            <NavLink className="StyleLink" to="/login">
+              Login
+            </NavLink>
+            <NavLink className="StyleLink" to="/register">
+              Register
+            </NavLink>
+          </div>
+        )}
+      </header>
     </>
   );
 };
-
-const mapStateToProps = state => ({
-  isLoggedIn: selectIsLoggedIn(state),
-});
-
-export default connect(mapStateToProps, null)(Navigation);

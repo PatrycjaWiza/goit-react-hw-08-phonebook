@@ -1,13 +1,16 @@
-import { Button } from './Styles';
 import PropTypes from 'prop-types';
+
+import Button from 'react-bootstrap/Button';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 export const Contacts = ({ contacts, toDelete }) => {
   return (
-    <ul>
+    <ListGroup>
       {contacts.map(({ name, phone, id }) => (
-        <li key={id}>
+        <ListGroup.Item key={id}>
           {name}: {phone}
           <Button
+            size="sm"
             type="submit"
             onClick={() => {
               toDelete(id);
@@ -15,9 +18,9 @@ export const Contacts = ({ contacts, toDelete }) => {
           >
             Delete
           </Button>
-        </li>
+        </ListGroup.Item>
       ))}
-    </ul>
+    </ListGroup>
   );
 };
 
