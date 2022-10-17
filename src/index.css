@@ -11,24 +11,30 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   margin: 0 20px;
+
   background: url('./images/bg-image-desktop.jpg');
   background-size: cover;
   color: aliceblue;
 }
-
+@media screen and (max-width: 600px) {
+  * {
+    font-size: 15px;
+  }
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 .container {
-  position: absolute;
+  margin: 0 auto;
+  /* position: absolute; */
   display: block;
   margin-top: 5vh;
   margin-bottom: 5vh;
-  left: 15vw;
+  /* left: 15vw; */
   backdrop-filter: blur(5px);
-  max-width: 70vw;
-  padding: 5vh 20vw;
+  max-width: 88vw;
+  padding: 5vh 7vw;
   min-height: 90vh;
 }
 /* main page */
@@ -42,17 +48,18 @@ h1 {
 header {
   color: aliceblue;
   display: flex;
-  justify-content: left;
+  /* justify-content: space-between; */
   align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: -45px;
   font-size: 25px;
   position: relative;
-  left: -8vw;
+  left: -4vw;
 }
 
 .LoginRegisterBar {
-  position: absolute;
-  right: -15vw;
+  padding-top: 40px;
+  margin-bottom: 15px;
+  text-align: right;
 }
 .StyleLink {
   color: aliceblue;
@@ -61,8 +68,8 @@ header {
 }
 /* userMenu */
 .userMenuHeader {
-  position: absolute;
-  right: -23vw;
+  /* position: absolute;
+  right: -23vw; */
   /* top: 1vh; */
   text-align: right;
 }
@@ -78,12 +85,18 @@ header {
 }
 
 /* bootstrap form */
+form {
+  margin-bottom: 20px;
+}
+.list-group {
+  margin-bottom: 20px;
+}
 .form-control,
 .list-group-item,
 .form-control:focus {
   color: aliceblue;
   background: cadetblue;
-  max-width: 30vw;
+  /* max-width: 30vw; */
 }
 
 .form-control::placeholder {
@@ -95,8 +108,12 @@ header {
 
 /* footer */
 footer {
-  margin-top: 80px;
+  margin-left: auto;
+  margin-right: auto;
   position: absolute;
   bottom: 15px;
-  left: 28vw;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 12px;
 }

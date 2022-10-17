@@ -19,20 +19,20 @@ export const Navigation = () => {
             Contacts
           </NavLink>
         )}
-
-        {isLoggedIn ? (
-          <UserMenu />
-        ) : (
-          <div className="LoginRegisterBar">
-            <NavLink className="StyleLink" to="/login">
-              Login
-            </NavLink>
-            <NavLink className="StyleLink" to="/register">
-              Register
-            </NavLink>
-          </div>
-        )}
       </header>
+
+      {isLoggedIn ? (
+        <UserMenu />
+      ) : (
+        <div className="LoginRegisterBar">
+          <NavLink className="StyleLink" to="/login">
+            Login
+          </NavLink>
+          <NavLink className="StyleLink" to="/register">
+            Register
+          </NavLink>
+        </div>
+      )}
     </>
   );
 };
