@@ -25,7 +25,6 @@ export default function ContactsPage() {
       contact.name.toLowerCase().includes(contactFilter.toLowerCase())
     )
   );
-
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
@@ -44,7 +43,8 @@ export default function ContactsPage() {
     return dispatch(addContact(values));
   };
 
-  const toDelete = id => dispatch(deleteContact(id));
+  const toDelete = id =>
+    dispatch(deleteContact(id)) && dispatch(fetchContacts());
 
   return (
     <div>
@@ -53,11 +53,9 @@ export default function ContactsPage() {
       <h2>Contacts</h2>
       <Filter value={contactFilter} onChange={handleChange} />
       {isLoading && <p>Loading...</p>}
-      {contactState === null ? (
-        <p>No contacts</p>
-      ) : (
-        <Contacts contacts={filterContacts} toDelete={toDelete} />
-      )}
+
+      <Contacts contacts={filterContacts} toDelete={toDelete} />
+
       {isError && <p>error.message</p>}
     </div>
   );
