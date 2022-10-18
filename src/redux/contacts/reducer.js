@@ -12,8 +12,11 @@ const items = createReducer([], {
     return payload;
   },
   [addContact.fulfilled]: (state, { payload }) => [payload, ...state],
-  [deleteContact.fulfilled]: (state, { payload }) =>
-    state.filter(({ id }) => id !== payload.id),
+  [deleteContact.fulfilled]: (state, { payload }) => {
+    const index = state.items.filter(contact => contact.id === payload);
+    return state.items.splice(index, 1);
+  },
+  // state.filter(({ id }) => id !== payload.id),
 });
 
 const loading = createReducer(false, {
