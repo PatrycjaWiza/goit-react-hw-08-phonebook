@@ -43,8 +43,7 @@ export default function ContactsPage() {
     return dispatch(addContact(values));
   };
 
-  const toDelete = id =>
-    dispatch(deleteContact(id)) && dispatch(fetchContacts());
+  const toDelete = id => dispatch(deleteContact(id));
 
   return (
     <div>
